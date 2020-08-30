@@ -33,6 +33,10 @@ public class Interact : MonoBehaviour
                     hit.collider.GetComponent<OpenDoor>().Open();
 
                 }
+                else if(hit.collider.CompareTag("Key"))
+                {
+                    hit.collider.GetComponent<Key>().PickUpKey();
+                }
             }
         }
 
