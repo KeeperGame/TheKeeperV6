@@ -21,10 +21,13 @@ public class OpenDoor : MonoBehaviour
     [SerializeField]
     Camera p_Cam;
 
+    public bool isLocked;
+
 
     private void Awake()
     {
         // Door stuff (default values)
+        isLocked = true;
         DoorAngleOpen = -90.0f;
         DoorAngleClosed = 0.0f;
     }
@@ -32,6 +35,7 @@ public class OpenDoor : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+       
         OpeningDoor = false;
         tmp = false;
         Player = GameObject.FindGameObjectWithTag("Player");
@@ -45,13 +49,25 @@ public class OpenDoor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (OpeningDoor)
-            MovePlayerToDoor();
+        // Animation Removed.
+
+        //if (OpeningDoor)
+        //    MovePlayerToDoor();
+
+        if (!isLocked)
+        {
+            JustOpen();
+        }
+
     }
 
     public void Open()
     {
-        OpeningDoor = true;
+        if (!isLocked)
+        {
+            ChoosingAngle();
+            OpeningDoor = !OpeningDoor;
+        }
     }
 
     void ChoosingAngle()
@@ -72,8 +88,7 @@ public class OpenDoor : MonoBehaviour
     }
 
     void DoorTriggerOpen()
-    {
-        ChoosingAngle();
+    {        
         Quaternion DoorRot = Quaternion.Euler(0.0f, DoorAngleOpen, 0.0f);
 
         transform.localRotation = Quaternion.Lerp(transform.localRotation, DoorRot, 2.0f * Time.deltaTime);
@@ -86,6 +101,18 @@ public class OpenDoor : MonoBehaviour
 
         transform.localRotation = Quaternion.Lerp(transform.localRotation, DoorClosed, 2.0f * Time.deltaTime);
 
+    }
+
+    void JustOpen()
+    {
+        if(OpeningDoor)
+        {
+            DoorTriggerOpen();
+        }
+        else
+        {
+            DoorTriggerClose();
+        }
     }
 
     void MovePlayerToDoor()

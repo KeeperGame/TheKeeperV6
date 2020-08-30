@@ -32,6 +32,7 @@ TagManager:
   - GroundCheck
   - Door
   - PlayerAnimated
+  - Key
   layers:
   - Default
   - TransparentFX
